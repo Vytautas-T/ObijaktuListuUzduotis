@@ -29,7 +29,6 @@ public class Main {
         nuolaiduPritaikymasKainomsDidesniomsUz600(prekes);
 
         isvedaBruksniukus();
-
     }
 
     public static void isvedaBruksniukus() {
@@ -94,28 +93,19 @@ public class Main {
         return kiekis;
     }
 
-    public static ArrayList<Object> brangiausiosPrekesKaina(List<Preke> prekes) {
-        double kaina = 0;
-        ArrayList<Object> taPreke = new ArrayList<>();
+    public static Preke brangiausiosPrekesKaina(List<Preke> prekes) {
+        Preke preke2 = null;
         for (Preke preke : prekes) {
-            if (kaina < preke.getKaina()) {
-                kaina = preke.getKaina();
+            if (preke2 == null)
+                preke2 = preke;
+            if (preke2.getKaina() < preke.getKaina()) {
+                preke2 = preke;
             }
 
         }
-        for (Preke preke : prekes) {
-
-            if (kaina == preke.getKaina()) {
-                taPreke.add(preke.getId());
-                taPreke.add(preke.getAprasymas());
-                taPreke.add(preke.getKaina());
-                taPreke.add(preke.getKiekisSandelyje());
-                taPreke.add(preke.getKategorija());
-                taPreke.add(preke.getMedziaga());
-            }
+        return preke2;
         }
-        return taPreke;
-    }
+
     public static double pritaikytiNuolaida(double kaina, int procentas){
        double nuolaida = (kaina / 100) * procentas;
        kaina = kaina - nuolaida;
@@ -130,28 +120,10 @@ public class Main {
             if (preke.getKaina() > 600){
                 kaina = preke.getKaina();
                 kaina = pritaikytiNuolaida(kaina,nuolaida);
-                System.out.println(kaina);
+                preke.setKaina(kaina);
             }
         }
-
-        System.out.println(prekesIsvedimas(prekes,600));
-    }
-
-    public static ArrayList<Object> prekesIsvedimas(ArrayList<Preke> prekes, int daugiauUz){
-        ArrayList<Object> taPreke = new ArrayList<>();
-        double kaina = 0;
-
-        for (Preke preke : prekes) {
-            if (preke.getKaina() > daugiauUz) {
-                taPreke.add(preke.getId());
-                taPreke.add(preke.getAprasymas());
-                taPreke.add(preke.getKaina());
-                taPreke.add(preke.getKiekisSandelyje());
-                taPreke.add(preke.getKategorija());
-                taPreke.add(preke.getMedziaga());
-            }
-        }
-        return taPreke;
+        isvestiListaAtskiraiEilutemis(prekes);
     }
 }
 

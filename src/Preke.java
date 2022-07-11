@@ -29,11 +29,7 @@ public class Preke {
         return kiekisSandelyje > 0;
     }
     public int kiekYraSandelyje() {
-        int kiekis = 0;
-        if (kiekisSandelyje > 0){
-            kiekis += kiekisSandelyje;
-        }
-        return kiekis;
+        return kiekisSandelyje;
     }
 
 
