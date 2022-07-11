@@ -29,6 +29,9 @@ public class Main {
         nuolaiduPritaikymasKainomsDidesniomsUz600(prekes);
 
         isvedaBruksniukus();
+        sumazintiStaloKainas(prekes);
+
+        isvedaBruksniukus();
     }
 
     public static void isvedaBruksniukus() {
@@ -106,24 +109,67 @@ public class Main {
         return preke2;
         }
 
-    public static double pritaikytiNuolaida(double kaina, int procentas){
+    public static double pritaikytiNuolaida(double kaina, double procentas){
        double nuolaida = (kaina / 100) * procentas;
        kaina = kaina - nuolaida;
         return kaina;
     }
 
     public static void nuolaiduPritaikymasKainomsDidesniomsUz600(ArrayList<Preke> prekes){
-        double kaina = 0;
-        int nuolaida = 10;
-        ArrayList atrinkTosPrekes = new ArrayList<>();
         for (Preke preke : prekes){
             if (preke.getKaina() > 600){
-                kaina = preke.getKaina();
-                kaina = pritaikytiNuolaida(kaina,nuolaida);
-                preke.setKaina(kaina);
+                preke.setKaina(pritaikytiNuolaida(preke.getKaina(), 10));
             }
         }
         isvestiListaAtskiraiEilutemis(prekes);
+    }
+    public static void sumazintiStaloKainas(ArrayList<Preke> prekes){
+        for (Preke preke : prekes){
+            if (preke.getPavadinimas() == "Stalas"){
+                preke.setKaina(pritaikytiNuolaida(preke.getKaina(), 42.5));
+            }
+        }
+    }
+    public static int KuriosMedziagosYraDaugiau(ArrayList<Preke> visosPrekes, String pirmaMedziaga, String antraMedziaga) {
+        int iPirmaMedziaga = 0;
+        int iAntraMedziaga = 0;
+        for (Preke preke : visosPrekes) {
+            if (preke.getMedziaga() == pirmaMedziaga)
+                iPirmaMedziaga++;
+            else if (preke.getMedziaga() == antraMedziaga)
+                iAntraMedziaga++;
+        }
+        if (iPirmaMedziaga > iAntraMedziaga)
+            return -1;
+        else if (iAntraMedziaga > iPirmaMedziaga)
+            return 1;
+        return 0;
+    }
+
+    public static int KuriosMedziagosYraDaugiauIrJosSuma(ArrayList<Preke> visosPrekes, String pirmaMedziaga, String antraMedziaga) {
+        int iPirmaMedziaga = 0;
+        int iAntraMedziaga = 0;
+        for (Preke preke : visosPrekes) {
+            if (preke.getMedziaga() == pirmaMedziaga)
+                iPirmaMedziaga = preke.getKiekisSandelyje();
+            else if (preke.getMedziaga() == antraMedziaga)
+                iAntraMedziaga = preke.getKiekisSandelyje();
+        }
+        if (iPirmaMedziaga > iAntraMedziaga)
+            return -1;
+        else if (iAntraMedziaga > iPirmaMedziaga)
+            return 1;
+        return 0;
+    }
+    public static ArrayList<Preke> isfiltruotosPrekes(ArrayList<Preke> visosPrekes, String ieskomaKategorija) {
+        ArrayList<Preke> isfiltruotosPrekes = new ArrayList();
+
+        for (Preke preke : visosPrekes) {
+            if (preke.getKategorija() == ieskomaKategorija)
+                isfiltruotosPrekes.add(preke);
+        }
+
+        return isfiltruotosPrekes;
     }
 }
 
